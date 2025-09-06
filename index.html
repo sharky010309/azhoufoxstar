@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>azhoufoxstar 登录</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background: #fffaf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        input[type="password"] {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .error {
+            color: #f55;
+            display: none;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #ff857a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff6f66;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Welcome to azhoufoxstar</h2>
+        <p class="error" id="errorMsg">你不是阿昼的专属！</p>
+        <input type="password" id="password" placeholder="请输入暗号">
+        <button onclick="checkPassword()">进入星球</button>
+    </div>
+    <script>
+        function checkPassword() {
+            var pwd = document.getElementById("password").value;
+            var errorMsg = document.getElementById("errorMsg");
+            if (pwd === "azhoufox") {
+                window.location.href = "azhou_prayer_for_fox_v2_5.html";
+            } else {
+                errorMsg.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

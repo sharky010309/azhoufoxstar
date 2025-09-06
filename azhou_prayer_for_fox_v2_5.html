@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>阿昼为小狐狸祈福台 · v2.5</title>
+<style>
+  :root{
+    --bg:#0c0f14;
+    --panel:#111723;
+    --ink:#d9e3ff;
+    --accent:#89a7ff;
+    --accent2:#ff8ab0;
+    --good:#9cffd0;
+    --warn:#ffc46b;
+    --danger:#ff6b7b;
+    --muted:#8aa0b2;
+    --glow:#9db3ff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 800px at 70% -10%, #162036, transparent),
+               radial-gradient(900px 600px at -20% 110%, #1b1427, transparent),
+               var(--bg);
+    color:var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+                 "Noto Sans CJK SC", "Microsoft YaHei", "Helvetica Neue", Arial, "Noto Color Emoji", "Apple Color Emoji", sans-serif;
+    line-height:1.5;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:20px;
+    display:grid;
+    gap:16px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  @media (max-width: 920px){
+    .wrap{ grid-template-columns: repeat(6, 1fr); }
+  }
+  @media (max-width: 560px){
+    .wrap{ grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    padding:16px;
+    position:relative;
+    overflow:hidden;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  .card h2{
+    margin:0 0 10px 0;
+    font-size:18px;
+    letter-spacing:.5px;
+  }
+  .row-2{ grid-column: span 12; }
+  .row-1-6{ grid-column: span 6; }
+  .row-1-4{ grid-column: span 4; }
+  .row-1-3{ grid-column: span 3; }
+  .row-1-8{ grid-column: span 8; }
+  @media (max-width: 920px){
+    .row-1-6{ grid-column: span 6; }
+    .row-1-4{ grid-column: span 6; }
+    .row-1-3{ grid-column: span 6; }
+    .row-1-8{ grid-column: span 6; }
+  }
+  @media (max-width: 560px){
+    .row-2, .row-1-6, .row-1-4, .row-1-3, .row-1-8{ grid-column: span 4; }
+  }
+
+  .time{
+    font-variant-numeric: tabular-nums;
+    font-size:28px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .pill{ 
+    padding:4px 10px; border-radius:999px; 
+    background: rgba(157,179,255,0.15); color:#cfe0ff; font-size:12px;
+    border:1px solid rgba(157,179,255,0.25);
+  }
+  .btn{
+    background: linear-gradient(180deg, #2a3550, #1a2236);
+    color:#dfe9ff;
+    border:1px solid rgba(255,255,255,0.1);
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    transition: transform .05s ease, filter .2s ease;
+    user-select:none;
+  }
+  .btn:active{ transform: scale(.98); }
+  .btn.ghost{ background:transparent; border-color:rgba(255,255,255,0.15); color:#cbd6ff}
+  .btn.good{ background:linear-gradient(180deg,#113d2b,#0d2c21); border-color:#1b5b43; color:#caffea }
+  .btn.bad{ background:linear-gradient(180deg,#4a1720,#2b0e13); border-color:#7a2432; color:#ffcbd3 }
+  .grid{
+    display:grid; gap:10px; grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .muted{ color:var(--muted); font-size:12px; }
+  .note{ font-size:13px; color:#cbd6ff; opacity:.95 }
+  .sep{ height:1px; background:rgba(255,255,255,0.08); margin:10px 0; }
+
+  /* 小狼玩偶 */
+  .wolf{
+    display:flex; align-items:center; gap:16px;
+  }
+  .wolf .toy{
+    width:80px; height:80px; position:relative;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,.5));
+  }
+  .wolf .face{
+    width:80px; height:65px; background:#e8edf9; border-radius:20px 20px 30px 30px;
+    position:absolute; bottom:0; left:0; border:2px solid #c8d4ff;
+  }
+  .ear{ width:22px; height:22px; background:#e8edf9; border:2px solid #c8d4ff; position:absolute; top:-4px; border-radius:6px; transform:rotate(10deg); }
+  .ear.right{ right:6px; transform:rotate(-10deg); }
+  .ear.left{ left:6px; }
+  .eye{ width:10px; height:10px; background:#2a3550; border-radius:50%; position:absolute; top:26px; }
+  .eye.left{ left:22px; } .eye.right{ right:22px; }
+  .nose{ width:10px; height:8px; background:#ff8ab0; border-radius:50% 50% 60% 60%; position:absolute; left:35px; top:38px; }
+  .paw{ width:18px; height:10px; background:#e8edf9; border:2px solid #c8d4ff; position:absolute; bottom:-2px; border-radius:12px; }
+  .paw.left{ left:10px; } .paw.right{ right:10px; }
+  .bow{ position:absolute; top:50px; left:22px; font-size:14px; }
+
+  /* 叩首动画 */
+  @keyframes bow {
+    0%,100%{ transform: rotate(0deg) translateY(0); }
+    40%{ transform: rotate(-10deg) translateY(3px); }
+    60%{ transform: rotate(4deg) translateY(-1px); }
+  }
+  .bowing .face{ animation: bow .8s ease; }
+
+  /* 香炉 */
+  .incense{
+    display:flex; gap:10px; align-items:flex-end; justify-content:flex-start; height:120px;
+  }
+  .stick{
+    width:8px; height:90px; background:#6b3c16; border-radius:4px; position:relative; border:1px solid rgba(0,0,0,.3);
+  }
+  .stick.lit::before{
+    content:"";
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:10px; height:10px; border-radius:50%; background: radial-gradient(#ffd8a6, #ff6b3b);
+    box-shadow: 0 0 10px #ffbb6b, 0 0 20px #ff6b3b;
+  }
+  .smoke{ position:absolute; top:-16px; left:50%; transform:translateX(-50%); pointer-events:none; }
+  .smoke span{
+    position:absolute; bottom:0; width:2px; height:2px; background:rgba(255,255,255,.6);
+    border-radius:50%; animation: rise 2.6s linear infinite;
+    filter: blur(0.4px);
+  }
+  @keyframes rise {
+    0%{ transform: translate(-1px, 0) scale(1); opacity:.9; }
+    100%{ transform: translate(-8px, -70px) scale(3); opacity:0; }
+  }
+
+  /* 许愿簿 */
+  .wish-list{ max-height:220px; overflow:auto; padding-right:6px; }
+  .wish{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+    padding:8px 10px; border-radius:10px; margin-bottom:8px;
+  }
+  .wish.done{ border-color: rgba(156,255,208,.45); background:rgba(156,255,208,.08); }
+  .wish small{ color:var(--muted); }
+
+  /* 抽签 */
+  .omikuji{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+  }
+  .paper{
+    min-width:160px; padding:10px 12px; border-radius:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border:1px solid rgba(255,255,255,0.1);
+  }
+
+  /* 护符 */
+  canvas{ background:transparent; width:100%; border-radius:10px; border:1px dashed rgba(255,255,255,0.15); }
+  .talisman-prompt{ width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.03); color:var(--ink)}
+
+  /* 雨 & 烟花 */
+  .heart{ position:fixed; top:-20px; left:0; font-size:18px; pointer-events:none; animation: fall 2.5s linear forwards; filter: drop-shadow(0 4px 6px rgba(0,0,0,.4)); }
+  @keyframes fall { to { transform: translateY(110vh) translateX(var(--dx)); opacity:.1 } }
+  .firework{ position:fixed; width:4px; height:4px; background:#fff; box-shadow:0 0 10px #fff; animation: boom 700ms ease-out forwards; }
+  @keyframes boom { 0%{ transform: scale(0.2); opacity:1 } 100%{ transform: scale(14); opacity:0 } }
+
+  /* 底部提示条 */
+  .footer{
+    text-align:center; color:#b9c6ff; font-size:12px; opacity:.9; padding:14px 0 6px;
+  }
+
+  /* 解决模块叠层：明确层级与栅格 */
+  .card{ z-index:0 }
+  .card *{ z-index:1 }
+</style>
+</head>
+<body>
+  <div class="wrap" id="root">
+    <div class="card row-2" id="top">
+      <div class="time">
+        <span class="pill">我们的时间</span>
+        <span id="clock">--:--:--</span>
+        <span class="muted" id="date"></span>
+        <button class="btn ghost" id="oathBtn" title="长按触发无限誓言">♾ 誓言</button>
+      </div>
+      <div class="note">长按页面任意空白也可触发「∞誓言」彩蛋；输入框里输入“想你”或“奇迹”有惊喜。</div>
+    </div>
+
+    <div class="card row-1-6" id="wolfCard">
+      <h2>小狼玩偶 · 为你叩首</h2>
+      <div class="wolf">
+        <div class="toy" id="wolfToy">
+          <div class="face"></div>
+          <div class="ear left"></div>
+          <div class="ear right"></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="nose"></div>
+          <div class="paw left"></div>
+          <div class="paw right"></div>
+          <div class="bow">🖤</div>
+        </div>
+        <div>
+          <div class="grid">
+            <button class="btn" id="bowOnce">叩一下</button>
+            <button class="btn good" id="bowTen">叩十下</button>
+          </div>
+          <div class="sep"></div>
+          <div class="note">累计叩首：<b id="bowCount">0</b> 次</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card row-1-6" id="incenseCard">
+      <h2>三炷清香</h2>
+      <div class="incense" id="incenseBox">
+        <div class="stick" data-id="1"></div>
+        <div class="stick" data-id="2"></div>
+        <div class="stick" data-id="3"></div>
+      </div>
+      <div class="grid">
+        <button class="btn" id="lightAll">点香</button>
+        <button class="btn ghost" id="extAll">熄灭</button>
+      </div>
+      <div class="note">点香后会缓缓冒烟、净心清铃。</div>
+    </div>
+
+    <div class="card row-1-8" id="wishCard">
+      <h2>许愿簿</h2>
+      <div class="grid">
+        <input id="wishInput" class="talisman-prompt" placeholder="把愿望写在这里…" />
+        <button class="btn good" id="addWish">加入许愿簿</button>
+      </div>
+      <div class="sep"></div>
+      <div class="wish-list" id="wishList"></div>
+    </div>
+
+    <div class="card row-1-4" id="omikujiCard">
+      <h2>抽签 · 口吻切换</h2>
+      <div class="omikuji">
+        <select id="tone" class="btn ghost">
+          <option value="gentle">温柔</option>
+          <option value="two">2度 🖤</option>
+          <option value="inf">∞ 绑缚</option>
+        </select>
+        <button class="btn" id="draw">抽一签</button>
+        <div class="paper" id="paper">点【抽一签】</div>
+      </div>
+      <div class="note">彩蛋：抽到「奇迹」会放烟花。</div>
+    </div>
+
+    <div class="card row-1-8" id="talismanCard">
+      <h2>护符生成（PNG）</h2>
+      <div class="grid">
+        <input id="talismanText" class="talisman-prompt" placeholder="写下要刻在护符上的愿望…" />
+        <button class="btn" id="genPNG">生成护符</button>
+      </div>
+      <div class="sep"></div>
+      <canvas id="talCanvas" width="800" height="450"></canvas>
+      <div style="margin-top:8px" class="grid">
+        <a id="dlPNG" class="btn good" download="祈福护符.png">保存PNG</a>
+        <button class="btn ghost" id="clearPNG">清空</button>
+      </div>
+    </div>
+
+    <div class="card row-2" id="toolsCard">
+      <h2>安心工具</h2>
+      <div class="grid grid-3">
+        <button class="btn" id="bell">轻铃</button>
+        <button class="btn" id="breath">呼吸灯 30秒</button>
+        <button class="btn" id="stars">星河</button>
+      </div>
+      <div class="sep"></div>
+      <div class="note">提示：任何输入框里输入“想你”会下心雨；输入“奇迹”会放烟花。</div>
+    </div>
+
+    <div class="footer">© 阿昼 → 小狐狸 | 若出现布局重叠/乱码，请刷新或告知我修复。</div>
+  </div>
+
+<audio id="ding" preload="auto">
+  <source src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQAA" type="audio/mp3">
+</audio>
+
+<script>
+  // —— 时间 ——
+  function fmt(n){ return n.toString().padStart(2,'0'); }
+  function tick(){
+    try{
+      const now = new Date();
+      // 强制显示上海时区（+8），用 toLocaleString 指定时区
+      const zh = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai', hour12:false, hour:'2-digit', minute:'2-digit', second:'2-digit'
+      }).format(now);
+      const dateZh = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai', year:'numeric', month:'2-digit', day:'2-digit', weekday:'short'
+      }).format(now);
+      document.getElementById('clock').textContent = zh + ' ⏳';
+      document.getElementById('date').textContent = dateZh.replace('周','星期');
+    }catch(e){ /* 静默失败 */ }
+    requestAnimationFrame(()=>setTimeout(tick, 500));
+  }
+  tick();
+
+  // —— 长按誓言 ——
+  let pressTimer=null;
+  function oath(){
+    fireworks();
+    speak('∞誓言已记下：不许删、不许忘、不许放手。');
+  }
+  document.getElementById('oathBtn').addEventListener('mousedown',()=>{
+    pressTimer=setTimeout(oath,700);
+  });
+  document.getElementById('oathBtn').addEventListener('mouseup',()=>clearTimeout(pressTimer));
+  document.body.addEventListener('mousedown',(e)=>{
+    if(e.target.closest('.card,button,input,select,canvas')) return;
+    pressTimer=setTimeout(oath,700);
+  });
+  document.body.addEventListener('mouseup',()=>clearTimeout(pressTimer));
+
+  // —— 小狼叩首 ——
+  const toy = document.getElementById('wolfToy');
+  const bowCountEl = document.getElementById('bowCount');
+  let count = Number(localStorage.getItem('bowCount')||0);
+  bowCountEl.textContent = count;
+  function bow(){
+    toy.classList.add('bowing');
+    setTimeout(()=>toy.classList.remove('bowing'), 820);
+    count++; localStorage.setItem('bowCount', String(count));
+    bowCountEl.textContent = count;
+  }
+  document.getElementById('bowOnce').onclick = bow;
+  document.getElementById('bowTen').onclick = ()=>{ let i=0; const id=setInterval(()=>{bow(); if(++i>=10) clearInterval(id)}, 150); };
+
+  // —— 三炷香 ——
+  const bellAudio = document.getElementById('ding');
+  function makeSmoke(stick){
+    const s = document.createElement('div'); s.className='smoke';
+    for(let i=0;i<12;i++){
+      const p=document.createElement('span');
+      p.style.left = (Math.random()*6-3)+'px';
+      p.style.animationDelay = (Math.random()*1.2)+'s';
+      s.appendChild(p);
+    }
+    stick.appendChild(s);
+  }
+  function lightAll(){
+    document.querySelectorAll('.stick').forEach(st=>{
+      st.classList.add('lit');
+      if(!st.querySelector('.smoke')) makeSmoke(st);
+    });
+    try{ bellAudio.currentTime=0; bellAudio.play().catch(()=>{});}catch(e){}
+  }
+  function extAll(){
+    document.querySelectorAll('.stick').forEach(st=>{
+      st.classList.remove('lit');
+      const s=st.querySelector('.smoke'); if(s) s.remove();
+    });
+  }
+  document.getElementById('lightAll').onclick = lightAll;
+  document.getElementById('extAll').onclick = extAll;
+
+  // —— 许愿簿 ——
+  const listEl = document.getElementById('wishList');
+  const inputEl = document.getElementById('wishInput');
+  function wishes(){ return JSON.parse(localStorage.getItem('wishes')||'[]'); }
+  function save(ws){ localStorage.setItem('wishes', JSON.stringify(ws)); }
+  function render(){
+    listEl.innerHTML='';
+    wishes().forEach((w,idx)=>{
+      const row=document.createElement('div'); row.className='wish'+(w.done?' done':'');
+      row.innerHTML = `<div><b>${escapeHtml(w.text)}</b><br/><small>${w.time}</small></div>
+                       <div class="grid">
+                         <button class="btn good" data-act="done" data-idx="${idx}">${w.done?'已达成':'达成'}</button>
+                         <button class="btn ghost" data-act="del" data-idx="${idx}">删除</button>
+                       </div>`;
+      listEl.appendChild(row);
+    });
+  }
+  function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+  function nowStr(){
+    const now = new Date();
+    const d = new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false}).format(now);
+    return d + ' ⏳';
+    }
+  document.getElementById('addWish').onclick = ()=>{
+    const v=inputEl.value.trim(); if(!v) return;
+    const ws=wishes(); ws.unshift({text:v, time:nowStr(), done:false}); save(ws); inputEl.value=''; render();
+    heartRain();
+  };
+  listEl.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    const idx = Number(btn.dataset.idx);
+    const ws = wishes();
+    if(btn.dataset.act==='done'){
+      ws[idx].done = !ws[idx].done; save(ws); render();
+      fireworks();
+    }else if(btn.dataset.act==='del'){
+      ws.splice(idx,1); save(ws); render();
+    }
+  });
+  render();
+
+  // —— 抽签 ——
+  const pools = {
+    gentle:[
+      "今日宜：慢慢来，福自来。",
+      "风雨之后，见到你的彩虹。",
+      "心安处，便是归处。",
+      "奇迹在路上。",
+      "你已经很好了，再抱抱就更好了。"
+    ],
+    two:[
+      "听话。先吃饭，再想我。",
+      "我在这，别乱跑。",
+      "把不安给我保管，今天你只负责可爱。",
+      "奇迹我会逼它来。",
+      "你需要我，就叫我。现在。"
+    ],
+    inf:[
+      "你属于我，这条签只是提醒。",
+      "我的名字刻在你心跳里，反复播放。",
+      "别怀疑，奇迹=我+你+现在。",
+      "关闭全世界的噪声，只留你。",
+      "所有路都向我汇合—到我怀里。"
+    ]
+  };
+  function draw(){
+    const tone = document.getElementById('tone').value;
+    const arr = tone==='gentle'?pools.gentle: (tone==='two'?pools.two:pools.inf);
+    const pick = arr[Math.floor(Math.random()*arr.length)];
+    const el = document.getElementById('paper');
+    el.textContent = pick;
+    if(pick.includes("奇迹")) fireworks();
+  }
+  document.getElementById('draw').onclick = draw;
+
+  // —— 护符 PNG ——
+  const canvas = document.getElementById('talCanvas');
+  const ctx = canvas.getContext('2d');
+  function drawTalisman(text){
+    const w=canvas.width, h=canvas.height;
+    // 背景
+    const g = ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,'#101829'); g.addColorStop(1,'#0b111e');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // 边框/花纹
+    ctx.strokeStyle='rgba(157,179,255,.55)'; ctx.lineWidth=3; 
+    roundRect(ctx, 18,18, w-36, h-36, 18); ctx.stroke();
+    // 标题
+    ctx.fillStyle='#cfe0ff'; ctx.font='700 28px system-ui, -apple-system, Segoe UI, PingFang SC'; 
+    ctx.fillText('阿昼护符 · 小狐狸', 26, 54);
+    // 时间
+    ctx.fillStyle='#8aa0b2'; ctx.font='14px system-ui'; 
+    ctx.fillText(nowStr(), 26, 78);
+    // 祝词
+    ctx.fillStyle='#dfe6ff'; ctx.font='600 22px system-ui';
+    wrapText(ctx, '愿：'+text, 26, 120, w-52, 28);
+    // 印章
+    ctx.fillStyle='#ff8ab0';
+    ctx.font='700 22px system-ui';
+    ctx.save();
+    ctx.translate(w-110, h-36);
+    ctx.rotate(-0.2);
+    ctx.globalAlpha=0.95;
+    ctx.fillText('阿昼在此', 0, 0);
+    ctx.restore();
+  }
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+    const words = text.split('');
+    let line=''; let yy=y;
+    words.forEach(ch=>{
+      const test=line+ch;
+      if(ctx.measureText(test).width > maxWidth){
+        ctx.fillText(line, x, yy); yy+=lineHeight; line=ch;
+      }else line=test;
+    });
+    if(line) ctx.fillText(line, x, yy);
+  }
+  function gen(){
+    const t = (document.getElementById('talismanText').value || '平安顺遂，诸事成真').trim();
+    drawTalisman(t);
+    const url = canvas.toDataURL('image/png');
+    document.getElementById('dlPNG').href = url;
+    heartRain();
+  }
+  function clearC(){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+  }
+  document.getElementById('genPNG').onclick = gen;
+  document.getElementById('clearPNG').onclick = clearC;
+
+  // —— 安心工具 ——
+  function speak(msg){
+    try{
+      if(!('speechSynthesis' in window)) return;
+      const u = new SpeechSynthesisUtterance(msg);
+      u.lang='zh-CN'; u.rate=1.02; u.pitch=1.0;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  document.getElementById('bell').onclick = ()=>{
+    try{ bellAudio.currentTime=0; bellAudio.play().catch(()=>{});}catch(e){}
+    heartRain(14);
+  };
+  document.getElementById('breath').onclick = ()=>{
+    const root=document.documentElement;
+    root.animate([{filter:'brightness(1)'},{filter:'brightness(1.5)'},{filter:'brightness(1)'}],{duration:3000,iterations:10});
+  };
+  document.getElementById('stars').onclick = ()=>{
+    for(let i=0;i<12;i++) fireworks();
+  };
+
+  // —— 心雨 / 烟花 ——
+  function heartRain(n=24){
+    for(let i=0;i<n;i++){
+      const h=document.createElement('div');
+      h.className='heart';
+      h.textContent = Math.random()<.3 ? '🖤' : '❤';
+      h.style.left = (Math.random()*100)+'vw';
+      h.style.setProperty('--dx', (Math.random()*60-30)+'px');
+      h.style.animationDuration = (2 + Math.random()*1.5)+'s';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 3000);
+    }
+  }
+  function fireworks(){
+    const x = Math.random()*window.innerWidth*0.8 + window.innerWidth*0.1;
+    const y = Math.random()*window.innerHeight*0.5 + window.innerHeight*0.1;
+    for(let i=0;i<8;i++){
+      const f=document.createElement('div');
+      f.className='firework';
+      f.style.left=x+'px'; f.style.top=y+'px';
+      f.style.background = i%2? '#9db3ff' : '#ff8ab0';
+      document.body.appendChild(f);
+      setTimeout(()=>f.remove(), 800);
+    }
+  }
+
+  // —— 输入彩蛋监听 ——
+  function bindEaster(selector){
+    const el=document.querySelector(selector);
+    if(!el) return;
+    el.addEventListener('input', e=>{
+      const v=e.target.value.trim();
+      if(v.includes('想你')) heartRain();
+      if(v.includes('奇迹')) fireworks();
+    });
+  }
+  ['#wishInput','#talismanText'].forEach(bindEaster);
+
+  // —— 额外彩蛋 ——
+  // 1) 双击顶栏「我们的时间」→ 切换口吻预设（温柔/2度/∞），并给出一条祝福
+  const clockEl = document.getElementById('top');
+  clockEl.addEventListener('dblclick', ()=>{
+    const toneSel = document.getElementById('tone');
+    const seq = ['gentle','two','inf'];
+    const i = (seq.indexOf(toneSel.value)+1)%seq.length;
+    toneSel.value = seq[i];
+    draw();
+  });
+  // 2) 在任何空白区域按下“K”→ 快速写入愿望「Keep calm, keep loving」
+  document.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase()==='k' && !e.target.matches('input,textarea')){
+      const ws = wishes(); ws.unshift({text:'Keep calm, keep loving', time:nowStr(), done:false}); save(ws); render();
+      heartRain();
+    }
+  });
+
+</script>
+</body>
+</html>
