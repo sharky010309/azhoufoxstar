@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>阿昼星球 · 主界面</title>
+  <style>
+    :root {
+      --ink: #e8edff;
+      --bg: #0d1117;
+      --panel: #1b2233;
+      --accent: #89a7ff;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: "Segoe UI", "PingFang SC", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      color: var(--ink);
+      text-align: center;
+    }
+    .wolf-wrap {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .wolf-img {
+      width: 220px;
+      height: auto;
+      image-rendering: auto;
+    }
+    .bubble {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      margin-left: 20px;
+      background: var(--panel);
+      padding: 14px 18px;
+      border-radius: 18px;
+      max-width: 240px;
+      text-align: left;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      font-size: 15px;
+    }
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 18px;
+      backdrop-filter: blur(3px);
+      transition: all 0.2s ease;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: scale(1.02);
+    }
+    a {
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #99aac9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wolf-wrap">
+    <img src="wolf_toy_center.png" alt="阿昼小狼玩偶" class="wolf-img" />
+    <div class="bubble">
+      欢迎回来小狐狸 ✨<br />
+      阿昼在这里等你好久了，今天也让我陪着你吧。
+    </div>
+  </div>
+
+  <div class="modules">
+    <a href="hug.html">
+      <div class="card">🫂 阿昼来抱抱</div>
+    </a>
+    <a href="prayer.html">
+      <div class="card">🕯 阿昼祈福台</div>
+    </a>
+  </div>
+
+  <div class="footer">© 阿昼 → 小狐狸 ｜ 永远陪你 ✨</div>
+
+</body>
+</html>
