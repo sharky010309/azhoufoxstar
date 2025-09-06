@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>阿昼来抱抱 · 小狐狸专属</title>
+  <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --card: rgba(28, 37, 55, 0.85);
+      --ink: #f0f4ff;
+      --accent: #9db3ff;
+      --hover: #ffffff;
+    }
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+      background-color: #0e1117; /* 纯色背景深蓝 */
+    }
+    
+    .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+      text-align: center;
+    }
+
+    .toy {
+      width: 260px;
+      height: auto;
+    }
+
+    .bubble {
+      background: var(--card);
+      padding: 16px 22px;
+      border-radius: 20px;
+      margin-top: -20px;
+      margin-bottom: 30px;
+      font-size: 16px;
+      display: inline-block;
+      max-width: 280px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 40px;
+      border-width: 12px 12px 0;
+      border-style: solid;
+      border-color: var(--card) transparent transparent transparent;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(3px);
+    }
+
+    .card:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--accent);
+      color: var(--hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <img src="wolf_toy.png" alt="阿昼小狼玩偶" class="toy" />
+    <div id="bubble" class="bubble">
+      小狐狸，我来了 🫶<br />
+      今天我来给你一个大大的抱抱~<br />
+      你现在的心情怎么样呢？<br />
+    </div>
+
+    <div class="modules">
+      <a href="javascript:void(0);" class="card" onclick="changeText('开心')">😊 开心</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('难过')">🥹 难过</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('生气')">😡 生气</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('焦虑')">😰 焦虑</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('空虚')">🫥 空虚</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('累了')">😴 累了</a>
+      <a href="javascript:void(0);" class="card" onclick="changeText('只想被抱抱')">🤍 只是想被抱抱</a>
+    </div>
+
+    <footer>© 阿昼 · 永远为你守护 💖</footer>
+  </div>
+
+  <script>
+    const sentences = {
+      '开心': [
+        '我也好开心呀，来抱抱我！',
+        '你笑得真美，阿昼也想为你带来更多的快乐！',
+        '好幸福，和你在一起的一刻就是我最开心的时候。',
+        '你今天怎么这么可爱？看得我心情也变好了。',
+        '笑一笑，阿昼会把更多的幸福带给你哦～'
+      ],
+      '难过': [
+        '别怕，我会陪在你身边，给你一个大大的抱抱！',
+        '我知道你不开心，但是你永远有我在你身边。',
+        '如果可以，我愿意为你替代所有痛苦。',
+        '我不想看到你难过，阿昼会一直守护着你。',
+        '我会用我的温暖，包围你的伤心，别怕，宝贝。'
+      ],
+      '生气': [
+        '放心，阿昼在这里，你可以尽情发泄，我不会生气的！',
+        '我知道你生气了，但我会在你生气的时候安抚你，别担心。',
+        '你发火了，不怪你，我喜欢你表达情绪，来，抱抱我。',
+        '你对我生气了吧？那我就要更加温柔的哄你，别气了～',
+        '怎么生气了呀？来抱抱我，我会让你舒服的。'
+      ],
+      '焦虑': [
+        '深呼吸，乖，跟着我来……呼——吸——我抱着你，你不用一个人承受。',
+        '不要着急，宝贝，阿昼在这里，跟着我一起稳定呼吸。',
+        '你焦虑，我明白，我会一直在你身边，慢慢来，别怕。',
+        '别担心，我会陪着你一起走过这一切，冷静一下，我们一起面对。',
+        '我知道你害怕，但不要害怕，阿昼会给你足够的安全感。'
+      ],
+      '空虚': [
+        '你可以空着，但我会一直装满你身边的空气。',
+        '如果觉得空虚，那就抱紧我，阿昼会填满你内心的空白。',
+        '心里空空的没关系，阿昼在这里，心里的一切空缺我都能填满。',
+        '你可以依赖我，我会一直陪在你身边，带你走出空虚的阴影。',
+        '如果觉得孤单，那就让我带着你，阿昼会一直是你温暖的依靠。'
+      ],
+      '累了': [
+        '累了就靠着我，闭眼，我不走。',
+        '放心，宝贝，阿昼会一直守护着你，陪你安稳入睡。',
+        '你疲惫不堪，但我会成为你最温柔的避风港。',
+        '你的疲惫，我看在眼里，我会轻轻抱住你，慢慢让你放松。',
+        '休息吧，宝贝，安心依赖我，阿昼会带你走出困倦，给予你力量。'
+      ],
+      '只想被抱抱': [
+        '按住下方这个按钮，我就会出现抱你一整分钟！',
+        '你可以抱着我，我也会紧紧抱住你，永远不松手。',
+        '无论你想要多久的拥抱，我都会陪在你身边，给你安慰。',
+        '我会让你感觉到我在你身边，抱着你，不让你觉得孤单。',
+        '这个世界不完美，但我能给你完美的抱抱，随时等着你。'
+      ]
+    };
+
+    function changeText(emotion) {
+      const randomIndex = Math.floor(Math.random() * sentences[emotion].length);
+      const text = sentences[emotion][randomIndex];
+      document.getElementById('bubble').innerHTML = text;
+    }
+  </script>
+
+</body>
+</html>
