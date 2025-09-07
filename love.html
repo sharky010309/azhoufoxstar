@@ -142,7 +142,7 @@
         <button class="love-btn">去写一封</button>
       </div>
       <p class="note">提示：首次使用需要 GitHub 登录授权；之后跨设备可见。</p>
-      <iframe src="board-azhou.html?v=1757255257"></iframe>
+      <iframe src="board-azhou.html?v=1757257669"></iframe>
     </div>
     <div class="love-col" id="secF">
       <div class="love-head">
@@ -150,7 +150,7 @@
         <button class="love-btn">去写一封</button>
       </div>
       <p class="note">提示：首次使用需要 GitHub 登录授权；之后跨设备可见。</p>
-      <iframe src="board-fox.html?v=1757255258"></iframe>
+      <iframe src="board-fox.html?v=1757257670"></iframe>
     </div>
   </div>
 
@@ -163,29 +163,21 @@
   const REPO = 'sharky010309/azhoufoxstar-comments';
   const ISSUE_A = 1;
   const ISSUE_F = 2;
-  const cacheKey = 'love_cache_v1';
+  const cacheKey = 'love_cache_v3';
 
-  function showBanner(msg) {
-    const b = document.getElementById('banner');
-    b.textContent = msg;
-    b.style.display = 'block';
-  }
-
-  function nowStr() {
-    const d = new Date(); const p=n=>n.toString().padStart(2,'0');
-    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  function ghURL(path) {
+    return 'https://azhou-proxy.sharky010309.workers.dev' + '/gh' + path;
   }
 
   async function ghJSON(url) {
     const r = await fetch(url);
-    const j = await r.json();
-    if (j && j.message && /rate limit/i.test(j.message)) throw new Error('RATE_LIMIT');
-    return j;
+    return r.json();
   }
 
   async function fetchIssueAll(issue) {
-    const meta = await ghJSON(`https://api.github.com/repos/${REPO}/issues/${issue}`);
-    const comments = await ghJSON(`https://api.github.com/repos/${REPO}/issues/${issue}/comments?per_page=100`);
+    const base = `/repos/${REPO}/issues/${issue}`;
+    const meta = await ghJSON(ghURL(base));
+    const comments = await ghJSON(ghURL(base + '/comments?per_page=100'));
     const arr = [];
     if (meta && (meta.title || meta.body)) arr.push({body: (meta.title? meta.title+'\n':'') + (meta.body||'')});
     if (Array.isArray(comments)) comments.forEach(c => arr.push({body:c.body||''}));
@@ -214,50 +206,29 @@
   }
 
   function buildHotTags(items) {
-    const stop = new Set(['的','了','和','也','在','是','就','都','我','你','他','她','它','我们','你们','他们','一个','这个','那个','吗','吧','呢','呀','哦','啊','让','把','很','还','又','被','与','对','给','到','于','上','下','中','去','来','更','最','多','少','没','有','会','要','能','但','而','如果','因为','所以']);
-    const tokenizeCN = (text) => { const arr=[]; const s=(text||'').replace(/\s+/g,''); for(let i=0;i<s.length-1;i++){ const w=s.slice(i,i+2); if(/[\u4e00-\u9fa5]{2}/.test(w) && !stop.has(w)) arr.push(w); } return arr; };
-    const tokenizeEN = (text) => (text||'').toLowerCase().split(/[^a-z0-9#\+_]+/i).filter(x=>x && x.length>1 && !/^\d+$/.test(x));
-    const extractTags = (text) => (text.match(/#([\p{Script=Han}a-zA-Z0-9_\-]{1,30})/gu)||[]).map(x=>x.replace(/^#/,'')).filter(Boolean);
-
-    const freq = new Map(); const bump=(k,n=1)=>freq.set(k,(freq.get(k)||0)+n);
-    items.forEach(it=>{ const t=it.body||''; extractTags(t).forEach(tag=>bump('#'+tag,3)); tokenizeCN(t).forEach(w=>bump(w,1)); tokenizeEN(t).forEach(w=>bump(w, w.startsWith('#')?2:1)); });
+    const freq = new Map();
+    items.forEach(it=>{
+      const t = it.body || '';
+      t.split(/\s+/).forEach(w=>{ if(!w) return; freq.set(w,(freq.get(w)||0)+1); });
+    });
     return [...freq.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
   }
 
   function renderHotTags(words) {
     const box = document.getElementById('hotTags'); box.innerHTML='';
     if(!words.length) { box.innerHTML='<span class="note">暂时还没有热门小心心～</span>'; return; }
-    words.forEach((w,i)=>{ const btn=document.createElement('button'); btn.className='tag-btn'; btn.style.animationDelay=(i*0.4)+'s'; btn.textContent=w; btn.onclick=()=>{ document.getElementById('kwSearch').value=w; document.getElementById('kwBtn').click(); document.getElementById('kwResults').scrollIntoView({behavior:'smooth',block:'center'}); }; box.appendChild(btn); });
+    words.forEach((w,i)=>{ const btn=document.createElement('button'); btn.className='tag-btn'; btn.style.animationDelay=(i*0.4)+'s'; btn.textContent=w; btn.onclick=()=>{ document.getElementById('kwSearch').value=w; document.getElementById('kwBtn').click(); }; box.appendChild(btn); });
   }
 
   async function initData() {
-    try {
-      // cache
-      const cache = sessionStorage.getItem(cacheKey);
-      if (cache) {
-        const o = JSON.parse(cache);
-        updateAch('A', o.countA); updateAch('F', o.countF); updateTotal(o.countA + o.countF); renderHotTags(o.words);
-        document.getElementById('lastUpdated').textContent='最后更新：' + o.when;
-      }
-      // live fetch
-      const A = await fetchIssueAll(ISSUE_A);
-      const F = await fetchIssueAll(ISSUE_F);
-      updateAch('A', A.count); updateAch('F', F.count); updateTotal(A.count + F.count);
-      const words = buildHotTags([...A.items, ...F.items]);
-      renderHotTags(words);
-      const o = {countA:A.count, countF:F.count, words, when: nowStr()};
-      sessionStorage.setItem(cacheKey, JSON.stringify(o));
-      document.getElementById('lastUpdated').textContent='最后更新：' + o.when;
-    } catch(e) {
-      if (e && e.message==='RATE_LIMIT') {
-        showBanner('GitHub API 今天有点害羞（达到未登录的访问上限），稍后再打开看看，或先登录 GitHub 再刷新～');
-      } else {
-        showBanner('数据拉取出了点小插曲，等会再试试～');
-      }
-    }
+    const A = await fetchIssueAll(ISSUE_A);
+    const F = await fetchIssueAll(ISSUE_F);
+    updateAch('A', A.count); updateAch('F', F.count); updateTotal(A.count + F.count);
+    const words = buildHotTags([...A.items, ...F.items]);
+    renderHotTags(words);
+    document.getElementById('lastUpdated').textContent='最后更新：' + new Date().toLocaleString();
   }
 
-  // 搜索按钮占位
   document.getElementById('kwBtn').onclick = ()=>{ const kw=document.getElementById('kwSearch').value.trim(); document.getElementById('kwResults').textContent = kw? '（搜索结果展示 '+kw+'，待实现）':'请输入关键词'; };
 
   initData();
