@@ -209,35 +209,73 @@
     else stat.textContent = '🎉 我们的所有总成就都达成啦！';
   }
 
+  
   async function updateHotTags(){
-    try{
-      const issues = [ISSUE_A, ISSUE_F];
-      let texts = [];
-      for(const issue of issues){
-        const r = await fetch(`https://api.github.com/repos/${REPO}/issues/${issue}/comments?per_page=100`);
-        const c = await r.json();
-        c.forEach(m=> texts.push(m.body||''));
+    const stop = new Set(['的','了','和','也','在','是','就','都','我','你','他','她','它','我们','你们','他们','一个','这个','那个','吗','吧','呢','呀','哦','啊','让','把','很','还','又','被','与','对','给','到','于','上','下','中','去','来','更','最','多','少','没','有','会','要','能','但','而','如果','因为','所以']);
+    const tokenizeCN = (text) => {
+      const arr = [];
+      const s = (text||'').replace(/\s+/g,'');
+      for(let i=0;i<s.length-1;i++){
+        const w = s.slice(i,i+2);
+        if(/[\u4e00-\u9fa5]{2}/.test(w) && !stop.has(w)) arr.push(w);
       }
-      const freq = {}
-      texts.join(' ').split(/\s+/).forEach(w=>{ if(!w) return; freq[w]=(freq[w]||0)+1; });
-      const top = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      return arr;
+    };
+    const tokenizeEN = (text) => (text||'').toLowerCase().split(/[^a-z0-9#\+_]+/i).filter(x=>x && x.length>1 && !/^\d+$/.test(x));
+    const extractTags = (text) => (text.match(/#([\p{Script=Han}a-zA-Z0-9_\-]{1,30})/gu)||[]).map(x=>x.replace(/^#/,''));
+
+    const fetchIssueWithComments = async (issue) => {
+      const base = `https://api.github.com/repos/${REPO}/issues/${issue}`;
+      const metaR = await fetch(base);
+      const meta = await metaR.json();
+      const commentsR = await fetch(base + '/comments?per_page=100');
+      const comments = await commentsR.json();
+      const items = [];
+      if(meta && (meta.title || meta.body)) items.push({body: (meta.title? meta.title+'\n':'') + (meta.body||'')});
+      if(Array.isArray(comments)) comments.forEach(c => items.push({body: c.body||''}));
+      return items;
+    };
+
+    try{
+      const A = await fetchIssueWithComments(ISSUE_A);
+      const F = await fetchIssueWithComments(ISSUE_F);
+      const items = [...A, ...F];
+
+      // Build frequencies
+      const freq = new Map();
+      const bump = (k, n=1)=> freq.set(k, (freq.get(k)||0)+n);
+      items.forEach(it=>{
+        const t = it.body || '';
+        extractTags(t).forEach(tag=> bump('#'+tag, 3));     // hashtags weight higher
+        tokenizeCN(t).forEach(w=> bump(w,1));
+        tokenizeEN(t).forEach(w=> bump(w, w.startsWith('#')?2:1));
+      });
+
+      const pairs = [...freq.entries()].sort((a,b)=> b[1]-a[1]).slice(0,5);
       const box = document.getElementById('hotTags');
       box.innerHTML='';
-      top.forEach(([w,_],i)=>{
+      if(pairs.length===0){
+        box.innerHTML = '<span class="note">暂时还没有热门小心心～</span>';
+        return;
+      }
+      pairs.forEach(([w,_],i)=>{
         const btn = document.createElement('button');
         btn.className='tag-btn';
-        btn.style.animationDelay = (i*0.5)+'s';
-        btn.textContent=w;
-        btn.onclick=()=>{
-          document.getElementById('kwSearch').value=w;
+        btn.style.animationDelay = (i*0.4)+'s';
+        btn.textContent = w;
+        btn.onclick = ()=>{
+          document.getElementById('kwSearch').value = w;
           document.getElementById('kwBtn').click();
+          // 自动滚动到搜索结果
+          document.getElementById('kwResults').scrollIntoView({behavior:'smooth', block:'center'});
         };
         box.appendChild(btn);
       });
     }catch(e){
-      document.getElementById('hotTags').innerHTML='<span class="note">暂无热门小心心</span>';
+      document.getElementById('hotTags').innerHTML='<span class="note">小心心拉取失败，稍后再试～</span>';
     }
   }
+
 
   loadCounts();
 </script>
