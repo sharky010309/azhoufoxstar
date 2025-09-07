@@ -181,7 +181,7 @@
     const arr = [];
     if (meta && (meta.title || meta.body)) arr.push({body: (meta.title? meta.title+'\n':'') + (meta.body||'')});
     if (Array.isArray(comments)) comments.forEach(c => arr.push({body:c.body||''}));
-    const count = (meta.comments||0);
+    const count = Array.isArray(comments) ? comments.length : 0;
     return {items:arr, count};
   }
 
