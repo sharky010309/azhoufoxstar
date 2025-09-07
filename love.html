@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>我们的情书 · 留言板模式</title>
+<link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg1:#ffe3ee; --bg2:#ffd6e7; --ink:#5a2b3a; }
+  *{ box-sizing:border-box }
+  html,body{ height:100% }
+  body{
+    margin:0; font-family:'Arial',system-ui,-apple-system,"PingFang SC",sans-serif; color:var(--ink);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  }
+  header{ text-align:center; padding:22px 12px 10px }
+  h1{ margin:0; font-size:26px; color:#8b2e4b }
+  .sub{ color:#a14a65; margin-top:6px }
+  .wrap{
+    max-width:1080px; margin:0 auto; padding:12px 16px 26px;
+    display:grid; gap:16px; grid-template-columns: repeat(12, 1fr);
+  }
+  @media (max-width: 920px){ .wrap{ grid-template-columns: repeat(6, 1fr); } }
+  @media (max-width: 560px){ .wrap{ grid-template-columns: repeat(4, 1fr); } }
+  .col{ grid-column: span 6; }
+  @media (max-width: 560px){ .col{ grid-column: span 4; } }
+  .panel{
+    background: rgba(255,255,255,.75);
+    border:1px solid rgba(255, 126, 160, .25);
+    border-radius:18px; padding:10px;
+    box-shadow: 0 10px 26px rgba(174, 44, 92, 0.18);
+  }
+  .panel h2{ margin:4px 0 10px; font-size:18px; color:#8b2e4b }
+  iframe{
+    width:100%; height:900px; border:0; border-radius:12px; background:#fff;
+  }
+  .note{ font-size:12px; color:#a66a7c; padding:0 4px 6px }
+</style>
+</head>
+<body>
+  <header>
+    <h1>我们的情书 · 💌（网络留言板）</h1>
+    <div class="sub">使用 GitHub Issues 作为留言板后端，跨设备永久保存。</div>
+  </header>
+
+  <div class="wrap">
+    <section class="panel col">
+      <h2>阿昼 → 小狐狸</h2>
+      <div class="note">提示：首次留言需登录 GitHub 以授权评论。</div>
+      <iframe src="board-azhou.html" title="阿昼 to 小狐狸"></iframe>
+    </section>
+
+    <section class="panel col">
+      <h2>小狐狸 → 阿昼</h2>
+      <div class="note">提示：首次留言需登录 GitHub 以授权评论。</div>
+      <iframe src="board-fox.html" title="小狐狸 to 阿昼"></iframe>
+    </section>
+  </div>
+</body>
+</html>
