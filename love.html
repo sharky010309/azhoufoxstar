@@ -23,9 +23,26 @@
   .ach-body { margin-top:12px; }
   .ach-row { margin-bottom:20px; }
   .ach-row-title { font-weight:bold; margin-bottom:6px; color:#8b2e4b; }
-  .badges { display:flex; gap:10px; margin-bottom:8px; }
+  .badges { display:flex; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
   .badge { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; opacity:.4; background:#fff; border:2px solid #ffb6c8; position:relative; }
   .badge.on { opacity:1; background:#ffe3ee; box-shadow:0 0 6px rgba(255,126,160,.6); }
+  /* Tooltip using data-title + data-desc */
+  .badge:hover::after {
+    content: attr(data-title) '\A' attr(data-desc);
+    white-space: pre;
+    position: absolute;
+    top: -72px;
+    left: 0;
+    transform: translateY(-4px);
+    background: #fff;
+    border: 1px solid #ffb6c8;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #5a2b3a;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    pointer-events: none;
+  }
   .progress-wrap { background:#ffe3ee; border-radius:999px; overflow:hidden; height:18px; margin-top:4px; }
   .progress-bar { height:100%; text-align:center; font-size:12px; color:#fff; white-space:nowrap; }
   .ach-stat { margin-top:4px; font-size:13px; color:#a14a65; }
@@ -82,37 +99,40 @@
       <span class="toggle-arrow">▼</span>
     </div>
     <div class="ach-body">
+      <!-- 总成就 -->
       <div class="ach-row" id="rowT">
         <div class="ach-row-title">我们的一起</div>
         <div class="badges">
-          <div class="badge" id="t50" title="💞 双心同频">💞</div>
-          <div class="badge" id="t100" title="🌌 我们的星河">🌌</div>
-          <div class="badge" id="t200" title="🔥 炽烈誓言">🔥</div>
-          <div class="badge" id="t500" title="♾️ 永恒之约">♾️</div>
+          <div class="badge" id="t50" data-title="💞 双心同频" data-desc="第一次明显的合奏感">💞</div>
+          <div class="badge" id="t100" data-title="🌌 我们的星河" data-desc="把文字堆成一片银河">🌌</div>
+          <div class="badge" id="t200" data-title="🔥 炽烈誓言" data-desc="再多也写不完的执念">🔥</div>
+          <div class="badge" id="t500" data-title="♾️ 永恒之约" data-desc="只属于我们俩的无尽书信">♾️</div>
         </div>
         <div class="progress-wrap"><div class="progress-bar galaxy-bar" id="progT">0%</div></div>
         <div class="ach-stat" id="statT">我们还没开始写呢</div>
       </div>
 
+      <!-- 阿昼单独 -->
       <div class="ach-row" id="rowA">
         <div class="ach-row-title">阿昼 → 小狐狸</div>
         <div class="badges">
-          <div class="badge" id="a10">🌸</div>
-          <div class="badge" id="a30">🌙</div>
-          <div class="badge" id="a50">🔥</div>
-          <div class="badge" id="a100">👑</div>
+          <div class="badge" id="a10" data-title="🌸 初见心动" data-desc="第一次写满一页心意">🌸</div>
+          <div class="badge" id="a30" data-title="🌙 深情不改" data-desc="三十次落笔，三十次偏爱">🌙</div>
+          <div class="badge" id="a50" data-title="🔥 偏执挚爱" data-desc="写到停不下来，字字都是执念">🔥</div>
+          <div class="badge" id="a100" data-title="👑 永恒守候" data-desc="一百封信，一百次许诺">👑</div>
         </div>
         <div class="progress-wrap"><div class="progress-bar" id="progA">0%</div></div>
         <div class="ach-stat" id="statA">还没有开始呢</div>
       </div>
 
+      <!-- 小狐狸单独 -->
       <div class="ach-row" id="rowF">
         <div class="ach-row-title">小狐狸 → 阿昼</div>
         <div class="badges">
-          <div class="badge" id="f10">💖</div>
-          <div class="badge" id="f30">🏰</div>
-          <div class="badge" id="f50">🦊</div>
-          <div class="badge" id="f100">⭐</div>
+          <div class="badge" id="f10" data-title="💖 可爱暴击" data-desc="十次心动暴击，狐狸的软软拳头">💖</div>
+          <div class="badge" id="f30" data-title="🏰 温柔积木" data-desc="三十块小心思，堆成一座温柔的堡垒">🏰</div>
+          <div class="badge" id="f50" data-title="🦊 狐狸的誓言" data-desc="第五十次也还是只写给阿昼">🦊</div>
+          <div class="badge" id="f100" data-title="⭐ 星海不移" data-desc="一百次笔尖的光，全写进阿昼的心里">⭐</div>
         </div>
         <div class="progress-wrap"><div class="progress-bar" id="progF">0%</div></div>
         <div class="ach-stat" id="statF">还没有开始呢</div>
@@ -142,7 +162,7 @@
         <button class="love-btn">去写一封</button>
       </div>
       <p class="note">提示：首次使用需要 GitHub 登录授权；之后跨设备可见。</p>
-      <iframe src="board-azhou.html?v=1757257669"></iframe>
+      <iframe src="board-azhou.html?v=1757259105"></iframe>
     </div>
     <div class="love-col" id="secF">
       <div class="love-head">
@@ -150,7 +170,7 @@
         <button class="love-btn">去写一封</button>
       </div>
       <p class="note">提示：首次使用需要 GitHub 登录授权；之后跨设备可见。</p>
-      <iframe src="board-fox.html?v=1757257670"></iframe>
+      <iframe src="board-fox.html?v=1757259106"></iframe>
     </div>
   </div>
 
@@ -163,7 +183,6 @@
   const REPO = 'sharky010309/azhoufoxstar-comments';
   const ISSUE_A = 1;
   const ISSUE_F = 2;
-  const cacheKey = 'love_cache_v3';
 
   function ghURL(path) {
     return 'https://azhou-proxy.sharky010309.workers.dev' + '/gh' + path;
@@ -207,26 +226,28 @@
 
   function buildHotTags(items) {
     const freq = new Map();
-    items.forEach(it=>{
-      const t = it.body || '';
-      t.split(/\s+/).forEach(w=>{ if(!w) return; freq.set(w,(freq.get(w)||0)+1); });
-    });
+    items.forEach(it=>{ const t = it.body || ''; t.split(/\s+/).forEach(w=>{ if(!w) return; freq.set(w,(freq.get(w)||0)+1); }); });
     return [...freq.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
   }
 
   function renderHotTags(words) {
     const box = document.getElementById('hotTags'); box.innerHTML='';
     if(!words.length) { box.innerHTML='<span class="note">暂时还没有热门小心心～</span>'; return; }
-    words.forEach((w,i)=>{ const btn=document.createElement('button'); btn.className='tag-btn'; btn.style.animationDelay=(i*0.4)+'s'; btn.textContent=w; btn.onclick=()=>{ document.getElementById('kwSearch').value=w; document.getElementById('kwBtn').click(); }; box.appendChild(btn); });
+    words.forEach((w,i)=>{ const btn=document.createElement('button'); btn.className='tag-btn'; btn.style.animationDelay=(i*0.4)+'s'; btn.textContent=w; btn.onclick=()=>{ document.getElementById('kwSearch').value=w; document.getElementById('kwBtn').click(); document.getElementById('kwResults').scrollIntoView({behavior:'smooth',block:'center'}); }; box.appendChild(btn); });
   }
 
   async function initData() {
-    const A = await fetchIssueAll(ISSUE_A);
-    const F = await fetchIssueAll(ISSUE_F);
-    updateAch('A', A.count); updateAch('F', F.count); updateTotal(A.count + F.count);
-    const words = buildHotTags([...A.items, ...F.items]);
-    renderHotTags(words);
-    document.getElementById('lastUpdated').textContent='最后更新：' + new Date().toLocaleString();
+    try {
+      const A = await fetchIssueAll(ISSUE_A);
+      const F = await fetchIssueAll(ISSUE_F);
+      updateAch('A', A.count); updateAch('F', F.count); updateTotal(A.count + F.count);
+      const words = buildHotTags([...A.items, ...F.items]);
+      renderHotTags(words);
+      document.getElementById('lastUpdated').textContent='最后更新：' + new Date().toLocaleString();
+    } catch(e) {
+      document.getElementById('banner').textContent = '小小的网络打盹了，等会再刷新看看～';
+      document.getElementById('banner').style.display='block';
+    }
   }
 
   document.getElementById('kwBtn').onclick = ()=>{ const kw=document.getElementById('kwSearch').value.trim(); document.getElementById('kwResults').textContent = kw? '（搜索结果展示 '+kw+'，待实现）':'请输入关键词'; };
