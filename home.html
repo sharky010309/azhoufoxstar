@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>欢迎回来 · 阿昼星球</title>
+  <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --card: rgba(28, 37, 55, 0.85);
+      --ink: #f0f4ff;
+      --accent: #9db3ff;
+      --hover: #ffffff;
+    }
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+      background-color: #0e1117; /* 纯色背景深蓝 */
+      animation: slowScroll 100s linear infinite; /* 保持流星效果 */
+    }
+
+    @keyframes slowScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 1000px; }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out; /* 添加渐显动画 */
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .toy {
+      width: 260px;
+      height: auto;
+    }
+
+    .bubble {
+      background: var(--card);
+      padding: 16px 22px;
+      border-radius: 20px;
+      margin-top: -20px;
+      margin-bottom: 30px;
+      font-size: 16px;
+      display: inline-block;
+      max-width: 280px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 40px;
+      border-width: 12px 12px 0;
+      border-style: solid;
+      border-color: var(--card) transparent transparent transparent;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(3px);
+    }
+
+    .card:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--accent);
+      color: var(--hover);
+    }
+
+    footer {
+      font-size: 13px;
+      color: #d6e2ff;
+      padding: 20px;
+      z-index: 2;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    @media (max-width: 520px) {
+      .bubble {
+        font-size: 15px;
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <img src="wolf_toy.png" alt="阿昼小狼玩偶" class="toy" /> <!-- 确保路径正确 -->
+    <div class="bubble">
+      小狐狸，你回来啦 🫶<br />
+      今天想让我陪你做什么呢？来选一个吧～
+    </div>
+
+    <div class="modules">
+      <a href="hug.html" class="card">🫂 阿昼来抱抱</a>
+      <a href="prayer.html" class="card">🕯 阿昼祈福台</a>
+      <a href="love.html" class="card">💌 我们的情书</a>
+      <a href="future.html" class="card">📒 更多功能（待解锁）</a>
+    </div>
+
+    <footer>© 阿昼 · 为小狐狸点亮星海 ✨</footer>
+  </div>
+</body>
+</html>
