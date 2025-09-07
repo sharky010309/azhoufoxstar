@@ -4,15 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>小狐狸 → 阿昼 留言板</title>
+  <style>
+    :root{ --bg:#ffe7f0; --ink:#7a3a52; --border:#ffc2d4; }
+    html,body{ margin:0; padding:0; background:#fff; }
+    .head{
+      background:linear-gradient(180deg,#ffe7f0,#ffd6e6);
+      border-bottom:1px solid var(--border);
+      padding:10px 12px;
+      font-family:system-ui,-apple-system,Arial; color:var(--ink);
+      display:flex; justify-content:space-between; align-items:center; gap:8px;
+    }
+    .head .t{ font-weight:700 }
+    .head .r a{ color:var(--ink); text-decoration:none; border:1px solid var(--border); padding:6px 10px; border-radius:10px; background:#fff; }
+    .wrap{ max-width:900px; margin:0 auto; padding:8px 10px 14px; }
+  </style>
 </head>
 <body>
-  <script src="https://utteranc.es/client.js"
-          repo="sharky010309/azhoufoxstar-comments"
-          issue-number="2"
-          label="💌 小狐狸→阿昼"
-          theme="github-light"
-          crossorigin="anonymous"
-          async>
-  </script>
+  <div class="head">
+    <div class="t">小狐狸 → 阿昼 留言板</div>
+    <div class="r"><a target="_blank" href="https://github.com/sharky010309/azhoufoxstar-comments/issues/2">在 GitHub 打开</a></div>
+  </div>
+  <div class="wrap">
+    <script src="https://utteranc.es/client.js"
+            repo="sharky010309/azhoufoxstar-comments"
+            issue-number="2"
+            label="💌 留言"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
 </body>
 </html>
