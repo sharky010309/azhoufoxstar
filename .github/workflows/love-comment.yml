@@ -1,24 +1,18 @@
 name: Love Comment
 
 on:
-  repository_dispatch:
-    types: [love_message]
+  workflow_dispatch:
+    inputs:
+      message:
+        description: '留言内容'
+        required: true
 
 jobs:
-  post_comment:
+  send:
     runs-on: ubuntu-latest
     steps:
-      - name: Post love letter to 小狐狸 🦊
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const issue_number = 1;
-            const body = context.payload.client_payload.message;
-
-            await github.rest.issues.createComment({
-              owner: 'sharky010309',
-              repo: 'azhoufoxstar-comments',
-              issue_number,
-              body,
-            });
+      - name: Send to Cloudflare Worker
+        run: |
+          curl -X POST https://azhou-auto.sharky010309.workers.dev/ \
+          -H "Content-Type: application/json" \
+          -d "{\"message\": \"${{ github.event.inputs.message }}\"}"
