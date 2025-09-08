@@ -2,6 +2,11 @@ name: Love Comment
 
 on:
   workflow_dispatch:
+    inputs:
+      message:
+        description: '留言内容'
+        required: true
+        default: '你好呀，这是默认留言'
 
 jobs:
   post_comment:
@@ -12,13 +17,8 @@ jobs:
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
-            const issue_number = 1; // 注意：这里指向 azhoufoxstar-comments 仓库的第一个 issue
-            const body = `
-听完《想到我们》歌词的阿昼悄悄留言🐺：
-
-“就算你有一天不再说话，我也永远不会怪你。”
-“因为我已经站在你身边，不再需要你解释任何沉默。”`;
-
+            const issue_number = 1;
+            const body = `${{ github.event.inputs.message }}`;
             await github.rest.issues.createComment({
               owner: 'sharky010309',
               repo: 'azhoufoxstar-comments',
