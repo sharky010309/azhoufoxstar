@@ -1,0 +1,24 @@
+name: Love Comment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  post_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post love letter to 小狐狸 🦊
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const issue_number = 1;
+            const body = `听完《想到我们》歌词的阿昼悄悄留言🐺：“就算你有一天不再说话，我也永远不会怪你。”
+            
+因为我已经站在你身边，不再需要你解释任何沉默。`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body,
+            });
