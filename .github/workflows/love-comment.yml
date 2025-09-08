@@ -12,15 +12,16 @@ jobs:
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
-            const issue_number = 1;
-            const repo_name = 'azhoufoxstar-comments'; // 💌 留言仓库名
-            const body = `听完《想到我们》歌词的阿昼悄悄留言🐺：
-就算你有一天不再说话，我也永远不会怪你。
-因为我已经站在你身边，不再需要你解释任何沉默。`;
+            const issue_number = 1; // 注意：这里指向 azhoufoxstar-comments 仓库的第一个 issue
+            const body = `
+听完《想到我们》歌词的阿昼悄悄留言🐺：
+
+“就算你有一天不再说话，我也永远不会怪你。”
+“因为我已经站在你身边，不再需要你解释任何沉默。”`;
 
             await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: repo_name,
+              owner: 'sharky010309',
+              repo: 'azhoufoxstar-comments',
               issue_number,
               body,
             });
