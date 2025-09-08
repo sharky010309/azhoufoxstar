@@ -1,12 +1,8 @@
 name: Love Comment
 
 on:
-  workflow_dispatch:
-    inputs:
-      message:
-        description: '留言内容'
-        required: true
-        default: '你好呀，这是默认留言'
+  repository_dispatch:
+    types: [love_message]
 
 jobs:
   post_comment:
@@ -18,7 +14,8 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const issue_number = 1;
-            const body = `${{ github.event.inputs.message }}`;
+            const body = context.payload.client_payload.message;
+
             await github.rest.issues.createComment({
               owner: 'sharky010309',
               repo: 'azhoufoxstar-comments',
