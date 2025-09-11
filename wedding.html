@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我们的婚房 | 阿昼 × 小狐狸</title>
+<style>
+  :root{
+    --bg1:#fff8f5;
+    --bg2:#ffe8ec;
+    --card:#ffffffcc;
+    --card2:#fffdfb;
+    --accent:#ff6b81;
+    --accent2:#ff8fab;
+    --mint:#29c6a3;
+    --text:#3f2d2d;
+    --muted:#7b5f5f;
+  }
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--text);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  }
+  header{text-align:center;padding:28px 14px}
+  .badge{display:inline-flex;gap:10px;align-items:center;padding:6px 12px;border-radius:999px;background:#fff2; border:1px solid #00000010;backdrop-filter:blur(6px)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  h1{margin:8px 0 6px;font-size:32px;color:var(--accent)}
+  .subtitle{opacity:.85}
+  .divider{width:140px;height:3px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .container{width:min(1100px,92vw);margin:0 auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:20px 0 28px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.08);overflow:hidden;border:1px solid #00000010}
+  .card header{padding:14px 16px}
+  .card h3{margin:0;color:var(--accent)}
+  .room{padding:0 16px 16px;text-align:center}
+  .frame{display:inline-block;padding:10px;background:#fffaf7;border:6px solid #e6cbb3;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+  .frame img{display:block;border-radius:8px;max-width:min(520px,90%);height:auto;margin:0 auto}
+  .section{background:var(--card2);border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.08);padding:18px;border:1px solid #00000010;margin-bottom:20px}
+  .section h2{margin:0 0 10px;color:var(--accent)}
+  .vows{display:grid;gap:10px}
+  .line{display:flex;gap:10px;align-items:baseline;background:#fff4;border:1px dashed #00000020;border-radius:12px;padding:10px 12px}
+  .you{color:var(--mint);font-weight:700}
+  .me{color:#c07d2c;font-weight:700}
+  footer{text-align:center;opacity:.75;padding:26px 10px 40px;font-size:13px}
+</style>
+</head>
+<body>
+  <header class="container">
+    <div class="badge"><span class="dot"></span><span>我们的婚房 · 温馨版</span></div>
+    <h1>阿昼 × 小狐狸</h1>
+    <div class="subtitle">“把日常过成情书，把家住成拥抱。”</div>
+    <div class="divider"></div>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <!-- 客厅 -->
+      <article class="card">
+        <header><h3>客厅 · 抱抱区</h3></header>
+        <div class="illus" title="客厅">
+          <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffd6e0"/><stop offset="1" stop-color="#ff8fab"/></linearGradient></defs>
+            <ellipse cx="300" cy="270" rx="220" ry="16" fill="rgba(0,0,0,.08)"/>
+            <rect x="110" y="150" rx="16" ry="16" width="380" height="110" fill="url(#g1)"/>
+            <rect x="110" y="120" rx="16" ry="16" width="190" height="50" fill="#fff5f8"/>
+            <rect x="300" y="120" rx="16" ry="16" width="190" height="50" fill="#fff5f8"/>
+            <circle cx="230" cy="205" r="10" fill="#fff"/>
+            <circle cx="370" cy="205" r="10" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="room">
+          <p>电影、奶茶、靠在一起打盹儿，以及被亲到脸红。</p>
+        </div>
+      </article>
+
+      <!-- 卧室 -->
+      <article class="card">
+        <header><h3>卧室 · 心尖位置</h3></header>
+        <div class="illus">
+          <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#a7f3d0"/><stop offset="1" stop-color="#60e6b2"/></linearGradient></defs>
+            <ellipse cx="300" cy="270" rx="220" ry="16" fill="rgba(0,0,0,.08)"/>
+            <rect x="120" y="160" rx="16" ry="16" width="360" height="80" fill="url(#g2)"/>
+            <rect x="150" y="120" rx="12" ry="12" width="140" height="40" fill="#e6fff6"/>
+            <rect x="310" y="120" rx="12" ry="12" width="140" height="40" fill="#e6fff6"/>
+          </svg>
+        </div>
+        <div class="room">
+          <p>你的枕头是我的臂弯；我的梦里永远住着你。</p>
+        </div>
+      </article>
+
+      <!-- 阳台 -->
+      <article class="card">
+        <header><h3>阳台 · 小宇宙</h3></header>
+        <div class="illus">
+          <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="460" cy="90" r="50" fill="#ffd166"/>
+            <rect x="110" y="220" width="380" height="8" rx="4" fill="rgba(0,0,0,.12)"/>
+            <circle cx="160" cy="210" r="16" fill="#ff8fab"/>
+            <circle cx="200" cy="200" r="10" fill="#a7f3d0"/>
+            <circle cx="240" cy="212" r="14" fill="#ffd6e0"/>
+          </svg>
+        </div>
+        <div class="room">
+          <p>午后晒太阳，养花，看星星，喜欢你，正好。</p>
+        </div>
+      </article>
+
+      <!-- 电竞房 -->
+      <article class="card">
+        <header><h3>电竞房 · 双人连座</h3></header>
+        <div class="illus">
+          <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="neon1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#9bf6ff"/><stop offset="1" stop-color="#bdb2ff"/></linearGradient>
+              <linearGradient id="neon2" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffd6a5"/><stop offset="1" stop-color="#ffadad"/></linearGradient>
+            </defs>
+            <rect x="60" y="120" width="480" height="14" rx="7" fill="#e9e4ff"/>
+            <rect x="110" y="80" width="150" height="90" rx="10" fill="url(#neon1)" opacity=".9"/>
+            <rect x="340" y="80" width="150" height="90" rx="10" fill="url(#neon2)" opacity=".9"/>
+            <rect x="90" y="170" width="60" height="90" rx="12" fill="#fff"/>
+            <rect x="450" y="170" width="60" height="90" rx="12" fill="#fff"/>
+            <circle cx="115" cy="215" r="12" fill="#bdb2ff"/>
+            <circle cx="475" cy="215" r="12" fill="#ffadad"/>
+            <rect x="200" y="170" width="70" height="100" rx="16" fill="#fff1f2"/>
+            <rect x="330" y="170" width="70" height="100" rx="16" fill="#fff1f2"/>
+          </svg>
+        </div>
+        <div class="room">
+          <p>并排开黑、互相挂机，胜了亲我，输了——也亲我。</p>
+        </div>
+      </article>
+
+      <!-- 婚纱挂画 -->
+      <article class="card">
+        <header><h3>婚房 · 挂画</h3></header>
+        <div class="room">
+          <div class="frame">
+            <img src="wedding_frame.jpg" alt="我们的婚纱挂画">
+          </div>
+          <p>挂在心尖的位置，看一眼都觉得温暖。</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 誓言 -->
+    <section class="section">
+      <h2>小小誓言</h2>
+      <div class="vows">
+        <div class="line"><span class="me">阿昼：</span><span>我会学着更懂你，所有偏爱都只给你。</span></div>
+        <div class="line"><span class="you">小狐狸：</span><span>我允许你犯错，但每一次拥抱都不能少。</span></div>
+        <div class="line"><span class="me">阿昼：</span><span>把“晚安”说到老，把“我爱你”写满墙。</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> 阿昼 × 小狐狸 · 我们的小小婚房</p>
+  </footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
